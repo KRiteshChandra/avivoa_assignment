@@ -133,6 +133,47 @@ decision-making is what makes it an "AI agent" rather than a simple form.
 
 ---
 
+## ⚠️ What the AI chat can and can't do
+
+The chat assistant is intentionally narrow — it's built to do 5 specific
+things well, not to be a general-purpose chatbot. Knowing the boundaries
+helps you use it correctly (and helps explain its behavior if you're
+demoing it).
+
+### ✅ What it CAN do
+- Log a new interaction from a natural-language description
+- Edit the most recently logged interaction, or a specific one if you give
+  an ID (e.g. "edit interaction 4...")
+- Show your interaction history, optionally filtered by doctor name
+- Summarize a specific logged interaction
+- Suggest follow-up actions based on a logged interaction
+
+### ❌ What it CANNOT do
+- **It won't guess information you didn't say.** If your message doesn't
+  mention sentiment, the sentiment field is saved as empty/null rather than
+  invented — it doesn't assume how the doctor felt.
+- **It can only act on ONE thing per message.** If you cram multiple
+  requests into one sentence (e.g. "log this interaction AND also show me
+  history"), it will only do one of them, not both.
+- **It doesn't have real conversation memory beyond the current session.**
+  Each message is interpreted mostly on its own — it doesn't deeply
+  reference earlier turns beyond "the last interaction" or an explicit ID.
+- **It can't delete interactions** — there's no delete tool, only log and
+  edit.
+- **It's not a general chatbot.** Questions unrelated to HCP interactions
+  (e.g. "what's the weather today?") won't be handled meaningfully — the
+  assistant is scoped to these 5 CRM actions only.
+- **It can occasionally misfire on very ambiguous or oddly-phrased
+  messages** — like any AI system, it's not 100% deterministic. If a
+  message doesn't clearly map to one of the 5 actions, results may be
+  unpredictable. Being specific (naming the doctor, saying "edit" or
+  "summarize" explicitly) gets the most reliable results.
+- **It depends on an external AI service (Groq).** If that service is slow
+  or temporarily unavailable, chat responses may be delayed or fail — the
+  structured form does not have this dependency and will always work.
+
+---
+
 ## Tech stack (for the curious)
 
 - **Frontend:** React + Redux Toolkit, deployed on Vercel
